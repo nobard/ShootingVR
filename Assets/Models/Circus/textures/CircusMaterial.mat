@@ -95,7 +95,7 @@ Material:
     - _EnableDetailMask: 0
     - _EnableTriplanarProjection: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0
     - _GlossyReflections: 1
     - _IntensityMask: 1
     - _InvertABaseColor: 0
