@@ -111,9 +111,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0d55a47a8070b489800b160e5a5e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 1
+  Speed: 3
   MaxDistance: 0.1
-  healthPoints: 10
+  MovingTo: 0
+  MovementDirection: 1
+  healthPoints: 1
   movementPath: {fileID: 0}
   targetAnimator: {fileID: 3512734524866692639}
 --- !u!95 &3512734524866692639

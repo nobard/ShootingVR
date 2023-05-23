@@ -5,12 +5,16 @@ using UnityEngine;
 public class LerpingTarget : TargetBase
 {
     [SerializeField]
-    private float healthPoints;
+    private float healthPoints = 0f;
     public override float HealthPoints { get => healthPoints; protected set => healthPoints = value; }
 
     [SerializeField]
+    private int pointsForHit = 50;
+    public override int PointsForHit { get => pointsForHit; protected set => pointsForHit = value; }
+
+    [SerializeField]
     private TargetMovementPath movementPath;
-    public override TargetMovementPath MovementPath { get => movementPath; protected set => movementPath = value; }
+    public override TargetMovementPath MovementPath { get => movementPath; set => movementPath = value; }
 
     [SerializeField]
     private Animator targetAnimator;

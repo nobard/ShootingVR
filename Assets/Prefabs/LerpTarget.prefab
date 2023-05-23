@@ -134,6 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 3
   MaxDistance: 0.1
-  healthPoints: 10
+  MovingTo: 0
+  MovementDirection: 1
+  healthPoints: 1
   movementPath: {fileID: 0}
   targetAnimator: {fileID: 3512734524866692639}
