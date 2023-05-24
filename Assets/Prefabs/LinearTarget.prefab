@@ -97,8 +97,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.0038386174, y: 0.008356233, z: 0.008272656}
-  m_Center: {x: -0.0017770908, y: -0.009623172, z: -9.934106e-10}
+  m_Size: {x: 0.00036392853, y: 0.008356233, z: 0.008272656}
+  m_Center: {x: -0.00003975428, y: -0.009623172, z: -9.934108e-10}
 --- !u!114 &2963569678607914005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,11 +111,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0d55a47a8070b489800b160e5a5e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
+  Speed: 4
   MaxDistance: 0.1
   MovingTo: 0
   MovementDirection: 1
+  Manager: {fileID: 0}
   healthPoints: 1
+  pointsForHit: 25
   movementPath: {fileID: 0}
   targetAnimator: {fileID: 3512734524866692639}
 --- !u!95 &3512734524866692639

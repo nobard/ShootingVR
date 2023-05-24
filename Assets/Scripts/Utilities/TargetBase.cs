@@ -16,6 +16,8 @@ public abstract class TargetBase : MonoBehaviour
     [HideInInspector] public LevelManager Manager;
     protected IEnumerator<Transform> pointInPath;
     public static event Action TargetShooted;
+    private bool isHitted = false;
+    private bool isStopped = false;
     
     protected abstract void MoveTarget();
 
@@ -24,6 +26,7 @@ public abstract class TargetBase : MonoBehaviour
         HealthPoints -= amount;
         if(HealthPoints <= 0f)
         {
+            isHitted = true;
             Die();
         }
     }
@@ -34,8 +37,23 @@ public abstract class TargetBase : MonoBehaviour
         Manager.CurrScores += PointsForHit;
         //звук
         TargetAnimator.enabled = true;
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 2f);
+        Manager.currLvlTargets--;
     }
+
+    // public void StopByTime(float seconds)
+    // {
+    //     StartCoroutine(StopByTimeCoroutine(seconds));
+    // }
+
+    // private IEnumerator StopByTimeCoroutine(float seconds)
+    // {
+    //     isStopped = true;
+
+    //     yield return new WaitForSeconds(seconds);
+
+    //     isStopped = false;
+    // }
 
     private void Start()
     {
@@ -59,7 +77,7 @@ public abstract class TargetBase : MonoBehaviour
 
     private void Update()
     {
-        if(pointInPath == null || pointInPath.Current == null) return;
+        if(pointInPath == null || pointInPath.Current == null || isStopped) return;
 
         if(MovementPath.CenterPoint != null)
         {
@@ -68,7 +86,7 @@ public abstract class TargetBase : MonoBehaviour
             transform.Rotate(0f, 90f, 180f);
         }
 
-        MoveTarget();
+        if(!isHitted) MoveTarget();
 
         var distSquare = (transform.position - pointInPath.Current.position).sqrMagnitude;
 

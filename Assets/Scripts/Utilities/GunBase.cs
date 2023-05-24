@@ -20,7 +20,7 @@ public abstract class GunBase : MonoBehaviour
         var createBullet = Instantiate(BulletPrefab, SpawnBulletPos.position, SpawnBulletPos.rotation);
         createBullet.GetComponent<Rigidbody>().velocity = BulletSpeed * SpawnBulletPos.forward;
         createBullet.GetComponent<Bullet>().ParentGun = gameObject;
-        Destroy(createBullet, 20f);
+        Destroy(createBullet, 10f);
         PistolShoot?.Invoke();   
     }
 }
