@@ -16,7 +16,7 @@ public class LevelManager : MonoBehaviour
     //массив шагов для усложнения(очки от которых идет усложнение)
     [SerializeField] private int[] stepsToHarder;
     //[HideInInspector] 
-    public int CurrScores = -5;
+    public int CurrScores = 0;
     public List<HardLevelSettings> HardLevels;
     private int currHardLevel = -1;
     private bool isStarted = false;
@@ -32,14 +32,7 @@ public class LevelManager : MonoBehaviour
 
     private void Update()
     {
-        if(!isStarted)
-        {
-            if(CurrScores < 0) return;
-            else
-            {
-                StartGame();
-            }
-        }
+        if(!isStarted) return;
 
         if(currHardLevel < stepsToHarder.Length && CurrScores >= stepsToHarder[currHardLevel])
         {

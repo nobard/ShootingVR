@@ -6,8 +6,7 @@ public class StaticTarget : MonoBehaviour
 {
     public float HealthPoints = 1f;
     public Animator TargetAnimator;
-    public LevelManager Manager;
-    public int PointsForHit = 5;
+    public ScenarioManager Manager;
 
     public void OnHit(float amount)
     {
@@ -21,9 +20,9 @@ public class StaticTarget : MonoBehaviour
     private void Die()
     {
         if(Manager == null) Debug.Log("Не установлен менеджер на мишень");
-        Manager.CurrScores += PointsForHit;
         //звук
         TargetAnimator.enabled = true;
+        Manager.PlayMainScenario();
         Destroy(gameObject, 2f);
     }
 
