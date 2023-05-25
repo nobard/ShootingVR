@@ -28,11 +28,11 @@ public class TargetMovementPath : MonoBehaviour
     /// Спавнит и возвращает объект мишени
     /// </summary>
     /// <param name="target"> Префаб мишени </param>
-    public TargetBase SpawnAndGetTarget(TargetBase target)
+    public TargetBase SpawnAndGetTarget(TargetBase target, int targetQueue)
     {
-        if(PathType != TargetPathTypeEnum.Loop) return SpawnTarget(target, GetRandomSpawnPoint());
+        if(PathType != TargetPathTypeEnum.Loop) return SpawnTarget(target, GetRandomSpawnPoint(), targetQueue);
 
-        return SpawnTarget(target, 0);
+        return SpawnTarget(target, 0, targetQueue);
     }
 
     /// <summary>
@@ -40,11 +40,12 @@ public class TargetMovementPath : MonoBehaviour
     /// </summary>
     /// <param name="target"> Префаб мишени </param>
     /// <param name="spawnPoint"> Точка для спавна </param>
-    private TargetBase SpawnTarget(TargetBase target, int spawnPoint) 
+    private TargetBase SpawnTarget(TargetBase target, int spawnPoint, int targetQueue) 
     {
         var newTarget = Instantiate(target, PathElements[spawnPoint].position, target.transform.rotation);
         newTarget.MovementPath = this;
         newTarget.MovingTo = spawnPoint;
+        newTarget.StopByTime(Random.Range(2f, 3f) * targetQueue);
 
         return newTarget;
     }

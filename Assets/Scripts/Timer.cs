@@ -7,7 +7,7 @@ using System;
 
 public class Timer : MonoBehaviour
 {
-    private bool timerStarted = true; // true - секундомер запущен
+    private bool timerStarted = false; // true - секундомер запущен
     public float timeLeft = 0f;
     [SerializeField] private TextMeshProUGUI timerText;
 
@@ -26,6 +26,11 @@ public class Timer : MonoBehaviour
                 UpdateTimerText();
             }
         }
+    }
+
+    public void StartTimer()
+    {
+        timerStarted = true;
     }
 
     private void UpdateTimerText()

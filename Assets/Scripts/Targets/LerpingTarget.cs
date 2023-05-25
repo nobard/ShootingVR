@@ -9,8 +9,12 @@ public class LerpingTarget : TargetBase
     public override float HealthPoints { get => healthPoints; protected set => healthPoints = value; }
 
     [SerializeField]
-    private int pointsForHit = 50;
+    private int pointsForHit = 10;
     public override int PointsForHit { get => pointsForHit; protected set => pointsForHit = value; }
+
+    [SerializeField]
+    private float timeReward = 2f;
+    public override float TimeReward { get => timeReward; protected set => timeReward = value; }
 
     [SerializeField]
     private TargetMovementPath movementPath;

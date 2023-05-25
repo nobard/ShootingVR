@@ -13,6 +13,10 @@ public class Pistol : GunBase
     public override float BulletSpeed { get => bulletSpeed; protected set => bulletSpeed = value; }
 
     [SerializeField]
+    private float reloadSpeed = 1f;
+    public override float ReloadSpeed { get => reloadSpeed; protected set => reloadSpeed = value; }
+
+    [SerializeField]
     private int capacity;
     public override int Capacity { get => capacity; protected set => capacity = value; }
 

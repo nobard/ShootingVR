@@ -7,6 +7,7 @@ public abstract class TargetBase : MonoBehaviour
 {
     public abstract float HealthPoints { get; protected set; }
     public abstract int PointsForHit { get; protected set; }
+    public abstract float TimeReward { get; protected set; }
     public abstract TargetMovementPath MovementPath { get; set; }
     public abstract Animator TargetAnimator { get; protected set; }
     public float Speed = 1f;
@@ -35,25 +36,27 @@ public abstract class TargetBase : MonoBehaviour
     {
         if(Manager == null) Debug.Log("Не установлен менеджер на мишень");
         Manager.CurrScores += PointsForHit;
+        Manager.TimerObject.timeLeft += TimeReward;
         //звук
+        isStopped = true;
         TargetAnimator.enabled = true;
         Destroy(gameObject, 2f);
-        Manager.currLvlTargets--;
+        Manager.targetsList.Remove(this);
     }
 
-    // public void StopByTime(float seconds)
-    // {
-    //     StartCoroutine(StopByTimeCoroutine(seconds));
-    // }
+    public void StopByTime(float seconds)
+    {
+        StartCoroutine(StopByTimeCoroutine(seconds));
+    }
 
-    // private IEnumerator StopByTimeCoroutine(float seconds)
-    // {
-    //     isStopped = true;
+    private IEnumerator StopByTimeCoroutine(float seconds)
+    {
+        isStopped = true;
 
-    //     yield return new WaitForSeconds(seconds);
+        yield return new WaitForSeconds(seconds);
 
-    //     isStopped = false;
-    // }
+        isStopped = false;
+    }
 
     private void Start()
     {
@@ -83,7 +86,7 @@ public abstract class TargetBase : MonoBehaviour
         {
             transform.LookAt(MovementPath.CenterPoint.transform);
             // фикс форвард оси
-            transform.Rotate(0f, 90f, 180f);
+            transform.Rotate(0f, 180f, 0f);
         }
 
         if(!isHitted) MoveTarget();
@@ -98,8 +101,11 @@ public abstract class TargetBase : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        collision.gameObject.TryGetComponent<Bullet>(out var bullet);
-        OnHit(bullet.ParentGun.GetComponent<GunBase>().Damage);
+        if(collision.gameObject.TryGetComponent<Bullet>(out var bullet))
+        {
+            OnHit(bullet.ParentGun.GetComponent<GunBase>().Damage);
+            Destroy(collision.gameObject);
+        }
     }
 
     public IEnumerator<Transform> GetNextPathPoint()
