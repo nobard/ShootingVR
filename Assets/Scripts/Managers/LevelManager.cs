@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
     public List<HardLevelSettings> HardLevels;
     private int currHardLevel = -1;
     private bool isStarted = false;
+    private bool isTargetSpawning = false;
     public List<TargetBase> targetsList = new List<TargetBase>();
     public Timer TimerObject;
 
@@ -40,7 +41,7 @@ public class LevelManager : MonoBehaviour
         }
         if(targetsList.Count < maxLvlTargets)
         {
-            SpawnTargets(maxLvlTargets - targetsList.Count);
+            StartCoroutine(SpawnTargets(maxLvlTargets - targetsList.Count));
         }
 
         UpdateScoresText();
@@ -49,22 +50,26 @@ public class LevelManager : MonoBehaviour
     private void MakeHarder()
     {
         currHardLevel++;
-        SpawnTargets(maxLvlTargets - targetsList.Count);
+        StartCoroutine(SpawnTargets(maxLvlTargets - targetsList.Count));
     }
 
     //1: 1 линия, 1 мишени
     //2: 1 линия, +2 мишени
     //3: 2 линия, +2 мишени
-    private void SpawnTargets(int count)
+    private IEnumerator SpawnTargets(int count)
     {
-        for(var i = 0; i < count; i++)
+        if(!isTargetSpawning)
         {
+            isTargetSpawning = true;
             var line = targetsLines[Random.Range(0, HardLevels[currHardLevel].Lines)];
             var targetPrefab = targetsPrefabs[Random.Range(0, HardLevels[currHardLevel].Targets)];
-            var target = line.SpawnAndGetTarget(targetPrefab, i);
+            var target = line.SpawnAndGetTarget(targetPrefab, targetsList.Count);
             target.Manager = this;  
             targetsList.Add(target);
-        }
+
+            yield return new WaitForSeconds(Random.Range(1f, 3f));
+            isTargetSpawning = false;
+        }       
     }
 
     private void UpdateScoresText()

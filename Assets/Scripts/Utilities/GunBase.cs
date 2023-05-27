@@ -16,6 +16,7 @@ public abstract class GunBase : MonoBehaviour
     public abstract GameObject BulletPrefab { get; protected set; }
     [SerializeField] private TextMeshProUGUI bulletsUI;
     public static event Action PistolShoot;
+    public Animator GunAnimator;
 
     private bool isReloading = false;
     private int currCapacity;
