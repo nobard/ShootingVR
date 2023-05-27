@@ -108,7 +108,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7034017130833764938}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: f6fdac3ad8a4e124fa1cc65a9aca2df2, type: 2}
   m_CullingMode: 0
@@ -136,4 +136,3 @@ MonoBehaviour:
   HealthPoints: 1
   TargetAnimator: {fileID: 7880367518824874711}
   Manager: {fileID: 0}
-  PointsForHit: 5

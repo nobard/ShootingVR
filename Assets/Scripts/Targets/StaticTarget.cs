@@ -21,7 +21,7 @@ public class StaticTarget : MonoBehaviour
     {
         if(Manager == null) Debug.Log("Не установлен менеджер на мишень");
         //звук
-        TargetAnimator.enabled = true;
+        TargetAnimator.Play("TargetFall");
         Manager.PlayMainScenario();
         Destroy(gameObject, 2f);
     }

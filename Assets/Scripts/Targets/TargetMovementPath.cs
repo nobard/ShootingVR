@@ -39,14 +39,16 @@ public class TargetMovementPath : MonoBehaviour
     /// Возвращает новую мишень
     /// </summary>
     /// <param name="target"> Префаб мишени </param>
-    /// <param name="spawnPoint"> Точка для спавна </param>
+    /// <param name="spawnPoint"> Индекс точки для спавна </param>
     private TargetBase SpawnTarget(TargetBase target, int spawnPoint, int targetQueue) 
     {
         var newTarget = Instantiate(target, PathElements[spawnPoint].position, target.transform.rotation);
         newTarget.MovementPath = this;
         newTarget.MovingTo = spawnPoint;
-        newTarget.StopByTime(Random.Range(2f, 3f) * targetQueue);
-
+        newTarget.FixedLookAt(CenterPoint.transform);
+        newTarget.PlaySpawnAnimation();
+        //newTarget.StopByTime(Random.Range(2f, 3f) * targetQueue);
+        
         return newTarget;
     }
 

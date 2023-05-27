@@ -5,15 +5,16 @@ using TMPro;
 
 public class ScenarioManager : MonoBehaviour
 {
-    [SerializeField] private GameObject pistolLight;
+    [SerializeField] private GameObject weaponLight;
     [SerializeField] private LevelManager levelManager;
-    [SerializeField] private GameObject TargetLight;
-    [SerializeField] private TextMeshProUGUI StartUI;
-    [SerializeField] private GameObject MainLight;
-    [SerializeField] private GameObject GameUI;
+    [SerializeField] private GameObject targetLight;
+    [SerializeField] private TextMeshProUGUI startUI;
+    [SerializeField] private GameObject mainLight;
+    [SerializeField] private GameObject gameUI;
     [SerializeField] private AudioSource switchSound;
     [SerializeField] private AudioSource mainSwitchSound;
     [SerializeField] private AudioSource circusMusic;
+    public StaticTarget target;
 
 
     private void Start()
@@ -29,10 +30,11 @@ public class ScenarioManager : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
         switchSound.Play();
-        pistolLight.SetActive(true);
+        weaponLight.SetActive(true);
+        target.TargetAnimator.Play("SpawnTarget");
         yield return new WaitForSeconds(4f);
         switchSound.Play();
-        //загарается фонарь на мишень
+        targetLight.SetActive(true);
         //UI предлагается стрельнуть в мишень;
     }
 
@@ -46,7 +48,9 @@ public class ScenarioManager : MonoBehaviour
         //закрыть UI
         yield return new WaitForSeconds(2f);
         mainSwitchSound.Play();
-        //включается основной свет
+        targetLight.SetActive(false);
+        weaponLight.SetActive(false);
+        mainLight.SetActive(true);
         yield return new WaitForSeconds(4f);
         circusMusic.Play();
         //немного подождать

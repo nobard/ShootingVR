@@ -18,7 +18,7 @@ public abstract class TargetBase : MonoBehaviour
     protected IEnumerator<Transform> pointInPath;
     public static event Action TargetShooted;
     private bool isHitted = false;
-    private bool isStopped = false;
+    private bool isStopped = true;
     
     protected abstract void MoveTarget();
 
@@ -39,24 +39,49 @@ public abstract class TargetBase : MonoBehaviour
         Manager.TimerObject.timeLeft += TimeReward;
         //звук
         isStopped = true;
-        TargetAnimator.enabled = true;
+        TargetAnimator.Play("TargetFall");
         Destroy(gameObject, 2f);
         Manager.targetsList.Remove(this);
     }
 
-    public void StopByTime(float seconds)
+    public void PlaySpawnAnimation()
     {
-        StartCoroutine(StopByTimeCoroutine(seconds));
+        StartCoroutine(PlaySpawnAnimationCoroutine());
     }
 
-    private IEnumerator StopByTimeCoroutine(float seconds)
+    private IEnumerator PlaySpawnAnimationCoroutine()
     {
-        isStopped = true;
-
-        yield return new WaitForSeconds(seconds);
-
+        TargetAnimator.Play("SpawnTarget");
+        yield return new WaitForSeconds(1f);
         isStopped = false;
     }
+
+    public void FixedLookAt(Transform point)
+    {
+        transform.LookAt(point);
+        //фикс форвард оси
+        transform.Rotate(transform.localRotation.x + 90f, 180f, transform.localRotation.z);
+    }
+
+    private void CommonLookAt(Transform point)
+    {
+        transform.LookAt(point);
+        transform.Rotate(transform.localRotation.x, 180f, transform.localRotation.z);
+    }
+
+    // public void StopByTime(float seconds)
+    // {
+    //     StartCoroutine(StopByTimeCoroutine(seconds));
+    // }
+
+    // private IEnumerator StopByTimeCoroutine(float seconds)
+    // {
+    //     isStopped = true;
+
+    //     yield return new WaitForSeconds(seconds);
+
+    //     isStopped = false;
+    // }
 
     private void Start()
     {
@@ -84,9 +109,7 @@ public abstract class TargetBase : MonoBehaviour
 
         if(MovementPath.CenterPoint != null)
         {
-            transform.LookAt(MovementPath.CenterPoint.transform);
-            // фикс форвард оси
-            transform.Rotate(0f, 180f, 0f);
+            CommonLookAt(MovementPath.CenterPoint.transform);
         }
 
         if(!isHitted) MoveTarget();
