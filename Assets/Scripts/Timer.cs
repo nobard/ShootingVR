@@ -38,6 +38,7 @@ public class Timer : MonoBehaviour
         if (timeLeft < 0) timeLeft = 0;
  
         TimeSpan time = TimeSpan.FromSeconds(timeLeft);
-        timerText.text = string.Format($"{time.TotalSeconds}");
+        var totalSeconds = time.Minutes * 60 + time.Seconds;
+        timerText.text = string.Format($"{totalSeconds}");
     }
 }

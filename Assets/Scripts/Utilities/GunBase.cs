@@ -15,6 +15,10 @@ public abstract class GunBase : MonoBehaviour
     public abstract Transform SpawnBulletPos { get; protected set; }
     public abstract GameObject BulletPrefab { get; protected set; }
     [SerializeField] private TextMeshProUGUI bulletsUI;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip reloadAudio;
+    [SerializeField] private AudioClip shootAudio;
+    [SerializeField] private AudioClip outOfAmmoAudio;
     public static event Action PistolShoot;
     public Animator GunAnimator;
 
@@ -23,16 +27,24 @@ public abstract class GunBase : MonoBehaviour
 
     public void Shoot()
     {
-        if(currCapacity <= 0) return;
-
-        //GetComponent<AudioSource>().Play();
+        if(currCapacity <= 0)
+        {
+            audioSource.clip = outOfAmmoAudio;
+            audioSource.Play();
+            
+            return;
+        }
+        
+        audioSource.clip = shootAudio;
+        audioSource.Play();
+        GunAnimator.Play("Shoot");
         StopReloading();
         currCapacity--;
         var createBullet = Instantiate(BulletPrefab, SpawnBulletPos.position, SpawnBulletPos.rotation);
         createBullet.GetComponent<Rigidbody>().velocity = BulletSpeed * SpawnBulletPos.forward;
         createBullet.GetComponent<Bullet>().ParentGun = gameObject;
         Destroy(createBullet, 3f);
-        PistolShoot?.Invoke();   
+        PistolShoot?.Invoke();
     }
 
     private void StopReloading()
@@ -48,6 +60,8 @@ public abstract class GunBase : MonoBehaviour
         {
             yield return new WaitForSeconds(ReloadSpeed / (i + 1));
             currCapacity++;
+            audioSource.clip = reloadAudio;
+            audioSource.Play();
         }
 
         isReloading = false;

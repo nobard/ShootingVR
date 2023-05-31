@@ -7,10 +7,16 @@ public class StaticTarget : MonoBehaviour
     public float HealthPoints = 1f;
     public Animator TargetAnimator;
     public ScenarioManager Manager;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip spawnAudio;
+    [SerializeField] private AudioClip shotAudio;
 
     public void OnHit(float amount)
     {
         HealthPoints -= amount;
+        audioSource.clip = shotAudio;
+        audioSource.Play();
+
         if(HealthPoints <= 0f)
         {
             Die();

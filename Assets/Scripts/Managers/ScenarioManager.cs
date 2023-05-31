@@ -29,10 +29,12 @@ public class ScenarioManager : MonoBehaviour
 
 
         yield return new WaitForSeconds(3f);
+
         switchSound.Play();
         weaponLight.SetActive(true);
         target.TargetAnimator.Play("SpawnTarget");
         yield return new WaitForSeconds(4f);
+        
         switchSound.Play();
         targetLight.SetActive(true);
         //UI предлагается стрельнуть в мишень;
@@ -47,14 +49,17 @@ public class ScenarioManager : MonoBehaviour
     {
         //закрыть UI
         yield return new WaitForSeconds(2f);
+
         mainSwitchSound.Play();
         targetLight.SetActive(false);
         weaponLight.SetActive(false);
         mainLight.SetActive(true);
         yield return new WaitForSeconds(4f);
+
         circusMusic.Play();
-        //немного подождать
-        //включается UI игры
+        yield return new WaitForSeconds(2f);
+
+        gameUI.SetActive(true);
         levelManager.StartGame();
     }
 }

@@ -15,6 +15,10 @@ public abstract class TargetBase : MonoBehaviour
     [HideInInspector] public int MovingTo = 0;
     [HideInInspector] public int MovementDirection = 1;
     [HideInInspector] public LevelManager Manager;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip spawnAudio;
+    [SerializeField] private AudioClip shotAudio;
+    
     protected IEnumerator<Transform> pointInPath;
     public static event Action TargetShooted;
     private bool isHitted = false;
@@ -25,6 +29,9 @@ public abstract class TargetBase : MonoBehaviour
     public void OnHit(float amount)
     {
         HealthPoints -= amount;
+        audioSource.clip = shotAudio;
+        audioSource.Play();
+
         if(HealthPoints <= 0f)
         {
             isHitted = true;
@@ -51,6 +58,8 @@ public abstract class TargetBase : MonoBehaviour
 
     private IEnumerator PlaySpawnAnimationCoroutine()
     {
+        audioSource.clip = spawnAudio;
+        audioSource.Play();
         TargetAnimator.Play("SpawnTarget");
         yield return new WaitForSeconds(1f);
         isStopped = false;
