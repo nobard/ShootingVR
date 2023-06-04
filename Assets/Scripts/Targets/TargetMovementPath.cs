@@ -8,6 +8,7 @@ public class TargetMovementPath : MonoBehaviour
     public TargetPathTypeEnum PathType;
     public Transform[] PathElements;
     public GameObject CenterPoint;
+    public bool isSimpleTargets;
     
     public void OnDrawGizmos()
     {
@@ -28,11 +29,11 @@ public class TargetMovementPath : MonoBehaviour
     /// Спавнит и возвращает объект мишени
     /// </summary>
     /// <param name="target"> Префаб мишени </param>
-    public TargetBase SpawnAndGetTarget(TargetBase target, int targetQueue)
+    public TargetBase SpawnAndGetTarget(TargetBase target)
     {
-        if(PathType != TargetPathTypeEnum.Loop) return SpawnTarget(target, GetRandomSpawnPoint(), targetQueue);
+        if(PathType != TargetPathTypeEnum.Loop) return SpawnTarget(target, GetRandomLinearSpawnPoint());
 
-        return SpawnTarget(target, 0, targetQueue);
+        return SpawnTarget(target, Random.Range(0, PathElements.Length));
     }
 
     /// <summary>
@@ -40,14 +41,17 @@ public class TargetMovementPath : MonoBehaviour
     /// </summary>
     /// <param name="target"> Префаб мишени </param>
     /// <param name="spawnPoint"> Индекс точки для спавна </param>
-    private TargetBase SpawnTarget(TargetBase target, int spawnPoint, int targetQueue) 
+    private TargetBase SpawnTarget(TargetBase target, int spawnPoint) 
     {
-        var newTarget = Instantiate(target, PathElements[spawnPoint].position, target.transform.rotation);
+        //var newTarget = Instantiate(target, PathElements[spawnPoint].position, target.transform.rotation);
+        var newTarget = Instantiate(target, PathElements[spawnPoint].position, PathElements[spawnPoint].rotation);
+
         newTarget.MovementPath = this;
         newTarget.MovingTo = spawnPoint;
-        newTarget.FixedLookAt(CenterPoint.transform);
+        
+        if(CenterPoint != null) newTarget.FixedLookAt(CenterPoint.transform);
+
         newTarget.PlaySpawnAnimation();
-        //newTarget.StopByTime(Random.Range(2f, 3f) * targetQueue);
         
         return newTarget;
     }
@@ -55,7 +59,7 @@ public class TargetMovementPath : MonoBehaviour
     /// <summary>
     /// Возвращает индекс точки для мишени(первая или последняя)
     /// </summary>
-    private int GetRandomSpawnPoint()
+    private int GetRandomLinearSpawnPoint()
     {
         var a = Random.Range(0, 2);
         if(a == 0) return 0;

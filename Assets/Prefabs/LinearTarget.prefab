@@ -143,7 +143,7 @@ MonoBehaviour:
   spawnAudio: {fileID: 8300000, guid: 9fafd1e00e182394dba6bf150e6acf14, type: 3}
   shotAudio: {fileID: 8300000, guid: 7de160a34c0879f488f4a47a4a4fc63e, type: 3}
   healthPoints: 1
-  pointsForHit: 50
+  pointsForHit: 100
   timeReward: 1
   movementPath: {fileID: 0}
   targetAnimator: {fileID: 3889364166502304985}
@@ -159,7 +159,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0

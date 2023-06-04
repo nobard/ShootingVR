@@ -13,9 +13,7 @@ public class ScenarioManager : MonoBehaviour
     [SerializeField] private GameObject gameUI;
     [SerializeField] private AudioSource switchSound;
     [SerializeField] private AudioSource mainSwitchSound;
-    [SerializeField] private AudioSource circusMusic;
     public StaticTarget target;
-
 
     private void Start()
     {
@@ -51,15 +49,15 @@ public class ScenarioManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         mainSwitchSound.Play();
+        gameUI.SetActive(true);
         targetLight.SetActive(false);
         weaponLight.SetActive(false);
         mainLight.SetActive(true);
         yield return new WaitForSeconds(4f);
 
-        circusMusic.Play();
+        levelManager.PlayCircusMusic();
         yield return new WaitForSeconds(2f);
 
-        gameUI.SetActive(true);
         levelManager.StartGame();
     }
 }

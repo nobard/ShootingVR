@@ -8,11 +8,13 @@ using System;
 public class Timer : MonoBehaviour
 {
     private bool timerStarted = false; // true - секундомер запущен
-    public float timeLeft = 0f;
+    public float StartTime;
+    [HideInInspector] public float timeLeft = 0f;
     [SerializeField] private TextMeshProUGUI timerText;
 
     private void Start()
     {
+        timeLeft = StartTime;
         UpdateTimerText();
     }
 
@@ -33,12 +35,23 @@ public class Timer : MonoBehaviour
         timerStarted = true;
     }
 
+    public void PauseTimer()
+    {
+        timerStarted = false;
+    }
+
+    public void ResetTimer()
+    {
+        PauseTimer();
+        timeLeft = StartTime;
+    }
+
     private void UpdateTimerText()
     {
         if (timeLeft < 0) timeLeft = 0;
  
         TimeSpan time = TimeSpan.FromSeconds(timeLeft);
         var totalSeconds = time.Minutes * 60 + time.Seconds;
-        timerText.text = string.Format($"{totalSeconds}");
+        timerText.text = string.Format("{0:00}", totalSeconds);
     }
 }

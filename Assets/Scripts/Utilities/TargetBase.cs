@@ -44,11 +44,15 @@ public abstract class TargetBase : MonoBehaviour
         if(Manager == null) Debug.Log("Не установлен менеджер на мишень");
         Manager.CurrScores += PointsForHit;
         Manager.TimerObject.timeLeft += TimeReward;
-        //звук
+        DestroyTarget();
+        Manager.targetsList.Remove(this);
+    }
+
+    public void DestroyTarget()
+    {
         isStopped = true;
         TargetAnimator.Play("TargetFall");
         Destroy(gameObject, 2f);
-        Manager.targetsList.Remove(this);
     }
 
     public void PlaySpawnAnimation()
@@ -77,20 +81,6 @@ public abstract class TargetBase : MonoBehaviour
         transform.LookAt(point);
         transform.Rotate(transform.localRotation.x, 180f, transform.localRotation.z);
     }
-
-    // public void StopByTime(float seconds)
-    // {
-    //     StartCoroutine(StopByTimeCoroutine(seconds));
-    // }
-
-    // private IEnumerator StopByTimeCoroutine(float seconds)
-    // {
-    //     isStopped = true;
-
-    //     yield return new WaitForSeconds(seconds);
-
-    //     isStopped = false;
-    // }
 
     private void Start()
     {
