@@ -13,7 +13,7 @@ public class ScenarioManager : MonoBehaviour
     [SerializeField] private GameObject gameUI;
     [SerializeField] private AudioSource switchSound;
     [SerializeField] private AudioSource mainSwitchSound;
-    public StaticTarget target;
+    private bool isScenarioPlayed;
 
     private void Start()
     {
@@ -30,7 +30,7 @@ public class ScenarioManager : MonoBehaviour
 
         switchSound.Play();
         weaponLight.SetActive(true);
-        target.TargetAnimator.Play("SpawnTarget");
+        levelManager.StartTarget.TargetAnimator.Play("SpawnTarget");
         yield return new WaitForSeconds(4f);
         
         switchSound.Play();
@@ -45,16 +45,20 @@ public class ScenarioManager : MonoBehaviour
 
     private IEnumerator PlayMainScenarioCoroutine()
     {
-        //закрыть UI
-        yield return new WaitForSeconds(2f);
+        if(!isScenarioPlayed)
+        {
+            //закрыть UI
+            yield return new WaitForSeconds(2f);
 
-        mainSwitchSound.Play();
-        gameUI.SetActive(true);
-        targetLight.SetActive(false);
-        weaponLight.SetActive(false);
-        mainLight.SetActive(true);
-        yield return new WaitForSeconds(4f);
-
+            mainSwitchSound.Play();
+            gameUI.SetActive(true);
+            targetLight.SetActive(false);
+            weaponLight.SetActive(false);
+            mainLight.SetActive(true);
+            yield return new WaitForSeconds(4f);
+            isScenarioPlayed = true;
+        }
+        
         levelManager.PlayCircusMusic();
         yield return new WaitForSeconds(2f);
 

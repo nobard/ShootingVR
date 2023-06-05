@@ -26,15 +26,16 @@ public class StaticTarget : MonoBehaviour
     private void Die()
     {
         if(Manager == null) Debug.Log("Не установлен менеджер на мишень");
-        //звук
         TargetAnimator.Play("TargetFall");
         Manager.PlayMainScenario();
-        Destroy(gameObject, 2f);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        collision.gameObject.TryGetComponent<Bullet>(out var bullet);
-        OnHit(bullet.ParentGun.GetComponent<GunBase>().Damage);
+        if(collision.gameObject.TryGetComponent<Bullet>(out var bullet))
+        {
+            OnHit(bullet.ParentGun.GetComponent<GunBase>().Damage);
+            Destroy(collision.gameObject);
+        }
     }
 }

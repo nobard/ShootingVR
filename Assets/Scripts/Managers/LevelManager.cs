@@ -1,3 +1,4 @@
+using System.Xml;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,16 +12,21 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private TargetBase[] targetsPrefabs;
     [SerializeField] private TargetBase[] simpleTargetsPrefabs;
     [SerializeField] private TextMeshProUGUI scoresText;
+    [SerializeField] private TextMeshProUGUI highScoreText;
     [SerializeField] private int maxLvlTargets = 5;
     [SerializeField] private AudioSource circusMusic;
     [SerializeField] private AudioSource gameOverSound;
-    [HideInInspector] public int CurrScores = 0;
+    [HideInInspector] public int CurrScore = 0;
+    [HideInInspector] public int HighScore;
     [HideInInspector] public List<TargetBase> targetsList = new List<TargetBase>();
+    [SerializeField] private List<GameObject> confettiObjects;
     public List<HardLevelSettings> HardLevels;
+    public Timer TimerObject;
+    public StaticTarget StartTarget;
     private int currHardLevel = -1;
+    private int highScore;
     private bool isStarted = false;
     private bool isTargetSpawning = false;
-    public Timer TimerObject;
 
     public void PlayCircusMusic()
     {
@@ -51,7 +57,7 @@ public class LevelManager : MonoBehaviour
         }
 
         //currHardLevel < HardLevels.Count && поидее не нужно
-        if(currHardLevel < HardLevels.Count && CurrScores >= HardLevels[currHardLevel].ScoresToHarder) MakeHarder();
+        if(currHardLevel < HardLevels.Count && CurrScore >= HardLevels[currHardLevel].ScoresToHarder) MakeHarder();
 
         if(targetsList.Count < maxLvlTargets) StartCoroutine(SpawnTargets());
 
@@ -61,15 +67,27 @@ public class LevelManager : MonoBehaviour
     private void GameOver()
     {
         PlayGameOverSound();
-        isStarted = false;
+        
+        if(CurrScore > HighScore) 
+        {
+            HighScore = CurrScore;
+            UpdateHighScoresText();
+            //конфети
+            LaunchConfetti();
+        }
+
         TimerObject.ResetTimer();
         currHardLevel = -1;
-        CurrScores = 0;
+        CurrScore = 0;
+        isStarted = false;
 
         foreach(var target in targetsList)
         {
             target.DestroyTarget();
         }
+
+        targetsList.Clear();
+        StartTarget.TargetAnimator.Play("SpawnTarget");
     }
 
     private void MakeHarder()
@@ -106,14 +124,28 @@ public class LevelManager : MonoBehaviour
 
     private void UpdateScoresText()
     {
-        scoresText.text = string.Format("{0:0000}", CurrScores);
+        scoresText.text = string.Format("{0:0000}", CurrScore);
+    }
+
+    private void UpdateHighScoresText()
+    {
+        highScoreText.text = string.Format("{0:0000}", HighScore);
+    }
+
+    private void LaunchConfetti()
+    {
+        foreach(var confetti in confettiObjects)
+        {
+            confetti.GetComponent<ParticleSystem>().Play();
+            confetti.GetComponent<AudioSource>().Play();
+        }
     }
 }
 
 [System.Serializable]
 public class HardLevelSettings
 {
-    //для последней сложности ScoresToHarder нужно ставить недостижимым
+    //для последней сложности ScoresToHarder должен быть недостижимым
     public int ScoresToHarder;
     public int Lines;
     public int Targets;

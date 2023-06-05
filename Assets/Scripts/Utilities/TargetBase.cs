@@ -42,7 +42,7 @@ public abstract class TargetBase : MonoBehaviour
     private void Die()
     {
         if(Manager == null) Debug.Log("Не установлен менеджер на мишень");
-        Manager.CurrScores += PointsForHit;
+        Manager.CurrScore += PointsForHit;
         Manager.TimerObject.timeLeft += TimeReward;
         DestroyTarget();
         Manager.targetsList.Remove(this);
