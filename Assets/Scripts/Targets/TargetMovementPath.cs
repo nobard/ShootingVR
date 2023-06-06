@@ -43,7 +43,6 @@ public class TargetMovementPath : MonoBehaviour
     /// <param name="spawnPoint"> Индекс точки для спавна </param>
     private TargetBase SpawnTarget(TargetBase target, int spawnPoint) 
     {
-        //var newTarget = Instantiate(target, PathElements[spawnPoint].position, target.transform.rotation);
         var newTarget = Instantiate(target, PathElements[spawnPoint].position, PathElements[spawnPoint].rotation);
 
         newTarget.MovementPath = this;

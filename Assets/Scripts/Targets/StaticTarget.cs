@@ -26,6 +26,7 @@ public class StaticTarget : MonoBehaviour
     private void Die()
     {
         if(Manager == null) Debug.Log("Не установлен менеджер на мишень");
+        
         TargetAnimator.Play("TargetFall");
         Manager.PlayMainScenario();
     }

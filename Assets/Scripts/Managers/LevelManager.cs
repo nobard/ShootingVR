@@ -72,7 +72,6 @@ public class LevelManager : MonoBehaviour
         {
             HighScore = CurrScore;
             UpdateHighScoresText();
-            //конфети
             LaunchConfetti();
         }
 

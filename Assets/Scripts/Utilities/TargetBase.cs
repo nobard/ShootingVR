@@ -42,6 +42,7 @@ public abstract class TargetBase : MonoBehaviour
     private void Die()
     {
         if(Manager == null) Debug.Log("Не установлен менеджер на мишень");
+
         Manager.CurrScore += PointsForHit;
         Manager.TimerObject.timeLeft += TimeReward;
         DestroyTarget();
@@ -65,7 +66,9 @@ public abstract class TargetBase : MonoBehaviour
         audioSource.clip = spawnAudio;
         audioSource.Play();
         TargetAnimator.Play("SpawnTarget");
+
         yield return new WaitForSeconds(1f);
+
         isStopped = false;
     }
 
@@ -106,19 +109,13 @@ public abstract class TargetBase : MonoBehaviour
     {
         if(pointInPath == null || pointInPath.Current == null || isStopped) return;
 
-        if(MovementPath.CenterPoint != null)
-        {
-            CommonLookAt(MovementPath.CenterPoint.transform);
-        }
+        if(MovementPath.CenterPoint != null) CommonLookAt(MovementPath.CenterPoint.transform);
 
         if(!isHitted) MoveTarget();
 
         var distSquare = (transform.position - pointInPath.Current.position).sqrMagnitude;
 
-        if(distSquare < MaxDistance * MaxDistance)
-        {
-            pointInPath.MoveNext();
-        }
+        if(distSquare < MaxDistance * MaxDistance) pointInPath.MoveNext();
     }
 
     private void OnCollisionEnter(Collision collision)

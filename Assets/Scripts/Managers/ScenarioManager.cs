@@ -8,7 +8,6 @@ public class ScenarioManager : MonoBehaviour
     [SerializeField] private GameObject weaponLight;
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private GameObject targetLight;
-    [SerializeField] private TextMeshProUGUI startUI;
     [SerializeField] private GameObject mainLight;
     [SerializeField] private GameObject gameUI;
     [SerializeField] private AudioSource switchSound;
@@ -35,7 +34,6 @@ public class ScenarioManager : MonoBehaviour
         
         switchSound.Play();
         targetLight.SetActive(true);
-        //UI предлагается стрельнуть в мишень;
     }
 
     public void PlayMainScenario()
@@ -47,7 +45,6 @@ public class ScenarioManager : MonoBehaviour
     {
         if(!isScenarioPlayed)
         {
-            //закрыть UI
             yield return new WaitForSeconds(2f);
 
             mainSwitchSound.Play();
