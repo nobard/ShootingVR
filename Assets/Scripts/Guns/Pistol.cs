@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pistol : GunBase
 {
     [SerializeField]
-    private float damage = 0f;
+    private float damage = 10f;
     public override float Damage { get => damage; protected set => damage = value; }
 
     [SerializeField]
@@ -31,4 +31,9 @@ public class Pistol : GunBase
     [SerializeField]
     private GameObject bulletPrefab;
     public override GameObject BulletPrefab { get => bulletPrefab; protected set => bulletPrefab = value; }
+
+    public override void Shoot()
+    {
+        SingleShoot();
+    }
 }

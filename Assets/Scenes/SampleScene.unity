@@ -1176,7 +1176,6 @@ MonoBehaviour:
   weaponLight: {fileID: 1281778415}
   levelManager: {fileID: 445879603}
   targetLight: {fileID: 576694745}
-  startUI: {fileID: 0}
   mainLight: {fileID: 1082534343}
   gameUI: {fileID: 1559809771}
   switchSound: {fileID: 1535553482}
@@ -4081,7 +4080,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1082534344
 Transform:
   m_ObjectHideFlags: 0

@@ -21,11 +21,12 @@ public abstract class GunBase : MonoBehaviour
     [SerializeField] private AudioClip outOfAmmoAudio;
     public static event Action PistolShoot;
     public Animator GunAnimator;
-
     private bool isReloading = false;
     private int currCapacity;
 
-    public void Shoot()
+    public abstract void Shoot();
+
+    protected void SingleShoot()
     {
         if(currCapacity <= 0)
         {
@@ -38,13 +39,12 @@ public abstract class GunBase : MonoBehaviour
         audioSource.clip = shootAudio;
         audioSource.Play();
         GunAnimator.Play("Shoot");
-        StopReloading();
+        //StopReloading();
         currCapacity--;
         var createBullet = Instantiate(BulletPrefab, SpawnBulletPos.position, SpawnBulletPos.rotation);
         createBullet.GetComponent<Rigidbody>().velocity = BulletSpeed * SpawnBulletPos.forward;
         createBullet.GetComponent<Bullet>().ParentGun = gameObject;
         Destroy(createBullet, 3f);
-        PistolShoot?.Invoke();
     }
 
     private void StopReloading()
