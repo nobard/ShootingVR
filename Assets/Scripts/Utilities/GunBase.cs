@@ -23,6 +23,7 @@ public abstract class GunBase : MonoBehaviour
     public Animator GunAnimator;
     private bool isReloading = false;
     private int currCapacity;
+    private Coroutine reloadCoroutine;
 
     public abstract void Shoot();
 
@@ -39,7 +40,7 @@ public abstract class GunBase : MonoBehaviour
         audioSource.clip = shootAudio;
         audioSource.Play();
         GunAnimator.Play("Shoot");
-        //StopReloading();
+        StopReloading();
         currCapacity--;
         var createBullet = Instantiate(BulletPrefab, SpawnBulletPos.position, SpawnBulletPos.rotation);
         createBullet.GetComponent<Rigidbody>().velocity = BulletSpeed * SpawnBulletPos.forward;
@@ -49,7 +50,8 @@ public abstract class GunBase : MonoBehaviour
 
     private void StopReloading()
     {
-        StopAllCoroutines();
+        if(reloadCoroutine != null) StopCoroutine(reloadCoroutine);
+        
         isReloading = false;
     }
 
@@ -84,7 +86,7 @@ public abstract class GunBase : MonoBehaviour
             if(!isReloading)
             {
                 isReloading = true;
-                StartCoroutine(Reload());
+                reloadCoroutine = StartCoroutine(Reload());
             }  
         }
 

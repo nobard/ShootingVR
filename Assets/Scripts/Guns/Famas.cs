@@ -32,17 +32,23 @@ public class Famas : GunBase
     private GameObject bulletPrefab;
     public override GameObject BulletPrefab { get => bulletPrefab; protected set => bulletPrefab = value; }
 
+    private bool isShooting;
+
     public override void Shoot()
     {
-        StartCoroutine(BurstShoot());
+        if(!isShooting) StartCoroutine(BurstShoot());
     }
 
     private IEnumerator BurstShoot()
     {
+        isShooting = true;
+
         for(var i = 0; i < 3; i++)
         {
             SingleShoot();
             yield return new WaitForSeconds(0.2f);
         }
+
+        isShooting = false;
     }
 }
