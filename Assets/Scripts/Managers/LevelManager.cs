@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private int maxLvlTargets = 5;
     [SerializeField] private AudioSource circusMusic;
     [SerializeField] private AudioSource gameOverSound;
+    [SerializeField] private List<ProgressGun> progressGuns;
     [HideInInspector] public int CurrScore = 0;
     [HideInInspector] public int HighScore;
     [HideInInspector] public List<TargetBase> targetsList = new List<TargetBase>();
@@ -87,6 +88,11 @@ public class LevelManager : MonoBehaviour
 
         targetsList.Clear();
         StartTarget.TargetAnimator.Play("SpawnTarget");
+
+        foreach(var gun in progressGuns)
+        {
+            if(HighScore >= gun.HighScoreToOpen) gun.Gun.SetActive(true);
+        }
     }
 
     private void MakeHarder()
@@ -148,4 +154,11 @@ public class HardLevelSettings
     public int ScoresToHarder;
     public int Lines;
     public int Targets;
+}
+
+[System.Serializable]
+public class ProgressGun
+{
+    public int HighScoreToOpen;
+    public GameObject Gun;
 }

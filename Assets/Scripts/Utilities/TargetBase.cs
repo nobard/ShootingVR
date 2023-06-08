@@ -29,12 +29,12 @@ public abstract class TargetBase : MonoBehaviour
     public void OnHit(float amount)
     {
         HealthPoints -= amount;
-        audioSource.clip = shotAudio;
-        audioSource.Play();
-
+        
         if(HealthPoints <= 0f && !isHitted)
         {
             isHitted = true;
+            audioSource.clip = shotAudio;
+            audioSource.Play();
             Die();
         }
     }

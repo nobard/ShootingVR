@@ -10,17 +10,15 @@ public class StaticTarget : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip spawnAudio;
     [SerializeField] private AudioClip shotAudio;
-    private bool isHitted;
 
     public void OnHit(float amount)
     {
         HealthPoints -= amount;
-        audioSource.clip = shotAudio;
-        audioSource.Play();
-
-        if(HealthPoints <= 0f && !isHitted)
+        
+        if(HealthPoints <= 0f)
         {
-            isHitted = true;
+            audioSource.clip = shotAudio;
+            audioSource.Play();
             Die();
         }
     }
