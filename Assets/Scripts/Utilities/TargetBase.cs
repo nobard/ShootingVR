@@ -32,7 +32,7 @@ public abstract class TargetBase : MonoBehaviour
         audioSource.clip = shotAudio;
         audioSource.Play();
 
-        if(HealthPoints <= 0f)
+        if(HealthPoints <= 0f && !isHitted)
         {
             isHitted = true;
             Die();
